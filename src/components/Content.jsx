@@ -4,7 +4,7 @@ import { LineWave } from "react-loader-spinner";
 
 import { useLazyGetSummaryQuery } from "../services/article";
 
-const Demo = () => {
+const Content = () => {
   const [article, setArticle] = useState({
     url: "",
     summary: "",
@@ -157,4 +157,4 @@ const Demo = () => {
   );
 };
 
-export default Demo;
+export default Content;
