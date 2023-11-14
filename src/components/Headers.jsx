@@ -5,9 +5,6 @@ const Headers = () => {
     <header className='w-full flex justif-center items-center flex-col'>
         <nav className='flex justify-between items-center w-full mb-10 pt-3'>
             <img src={defaul} alt='breifLogo' className='w-40 h-auto object-contain'/>
-            {/* <button type='button' className='black_btn' onClick={() => {window.open('https://github.com/zeerakb1')}}>
-                Github
-            </button> */}
         </nav>
 
         <h1 className='head_text'>

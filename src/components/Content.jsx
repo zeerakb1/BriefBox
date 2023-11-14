@@ -23,6 +23,8 @@ const Content = () => {
     }
   }, []);
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,27 +37,26 @@ const Content = () => {
       setArticle(newArticle);
       // console.log(newArticle)
       setAllArticles(updatedArticles);
-      console.log(updatedArticles);
+      // console.log(updatedArticles);
 
       localStorage.setItem("articles", JSON.stringify(updatedArticles));
     }
 
     setArticle({
       url: "",
-      summary: data.summary
+      summary: data.summary,
     });
-  
   };
 
   const handleRemoveArticle = (index) => {
-    let newArticlesList = allArticles.filter((article, ind) => ind !== index)
-    setAllArticles(newArticlesList)
+    let newArticlesList = allArticles.filter((article, ind) => ind !== index);
+    setAllArticles(newArticlesList);
     localStorage.setItem("articles", JSON.stringify(newArticlesList));
     setArticle({
       url: "",
-      summary: ""
+      summary: "",
     });
-  }
+  };
 
   return (
     <section className="mt-16 w-full max-w-3xl">
@@ -92,13 +93,24 @@ const Content = () => {
               onClick={() => setArticle(item)}
               className="link_card"
             >
-              <div className="copy_btn">
+              {/* <div className="copy_btn"> */}
+              <button
+                onClick={async () => await navigator.clipboard.writeText(item.url)}
+                // onClick={() => console.log(item.url)}
+                className="copy_btn"
+              >
                 <img
                   src={copy}
                   alt="copy_icon"
                   className="w-[40%] h-[40%] object-contain"
                 />
-              </div>
+              </button>
+              {/* <img
+                  src={copy}
+                  alt="copy_icon"
+                  className="w-[40%] h-[40%] object-contain"
+                /> */}
+              {/* </div> */}
               <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
                 {item.url}
               </p>
@@ -109,15 +121,13 @@ const Content = () => {
                   onClick={() => handleRemoveArticle(index)}
                 >
                   <img
-                      src={deleteIcon}
-                      alt="delete_icon"
-                      className="w-[40%] h-[40%] object-contain"
-                    /> 
+                    src={deleteIcon}
+                    alt="delete_icon"
+                    className="w-[40%] h-[40%] object-contain"
+                  />
                 </button>
               </div>
-              
             </div>
-            
           ))}
         </div>
       </div>
@@ -142,7 +152,8 @@ const Content = () => {
           article.summary && (
             <div className="flex flex-col gap-3">
               <h2 className="font-satoshi font-bold text-gray-600 text-xl">
-                Here&apos;s a <span className="blue_gradient">brief</span> overview:
+                Here&apos;s a <span className="blue_gradient">brief</span>{" "}
+                overview:
               </h2>
               <div className="summary_box">
                 <p className="font-inter font-medium text-sm text-gray-600">
