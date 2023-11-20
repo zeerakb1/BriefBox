@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { copy, linkIcon, deleteIcon } from "../assets";
+import { copy, linkIcon, deleteIcon, tick } from "../assets";
 import { LineWave } from "react-loader-spinner";
 
 import { useLazyGetSummaryQuery } from "../services/article";
@@ -13,6 +13,7 @@ const Content = () => {
   const [allArticles, setAllArticles] = useState([]);
 
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+  const [copied, setCopied] = useState("");
 
   useEffect(() => {
     const articlesFromLocalStorage = JSON.parse(
@@ -22,8 +23,6 @@ const Content = () => {
       setAllArticles(articlesFromLocalStorage);
     }
   }, []);
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +55,12 @@ const Content = () => {
       url: "",
       summary: "",
     });
+  };
+
+  const handleCopy = (itemUrl) => {
+    setCopied(itemUrl);
+    navigator.clipboard.writeText(itemUrl);
+    setTimeout(() => setCopied(false), 5000);
   };
 
   return (
@@ -93,24 +98,18 @@ const Content = () => {
               onClick={() => setArticle(item)}
               className="link_card"
             >
-              {/* <div className="copy_btn"> */}
-              <button
-                onClick={async () => await navigator.clipboard.writeText(item.url)}
+              <div
+                // onClick={async () => await navigator.clipboard.writeText(item.url)}
+                onClick={() => handleCopy(item.url)}
                 // onClick={() => console.log(item.url)}
                 className="copy_btn"
               >
                 <img
-                  src={copy}
+                  src={copied === item.url ? tick : copy}
                   alt="copy_icon"
                   className="w-[40%] h-[40%] object-contain"
                 />
-              </button>
-              {/* <img
-                  src={copy}
-                  alt="copy_icon"
-                  className="w-[40%] h-[40%] object-contain"
-                /> */}
-              {/* </div> */}
+              </div>
               <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
                 {item.url}
               </p>
